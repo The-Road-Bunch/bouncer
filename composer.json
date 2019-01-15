@@ -1,0 +1,17 @@
+{
+    "name": "theroadbunch/list-filter",
+    "description": "A whitelist/blacklist library for strings",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^7.5",
+        "symfony/var-dumper": "^4.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan McAdams",
+            "email": "danmcadams@gmail.com"
+        }
+    ],
+    "require": {}
+}
