@@ -19,15 +19,27 @@ namespace RoadBunch\Lists;
  */
 class ListFactory
 {
-    public static function create(string $type, array $domains = [])
+    /**
+     * Create a FilterList with the type of FilterList::TYPE_WHITELIST
+     *
+     * @param array $elements
+     * @return FilterListInterface
+     * @throws NonStringException
+     */
+    public static function createWhitelist(array $elements = []): FilterListInterface
     {
-        switch (strtolower($type)) {
-            case (FilterList::TYPE_WHITELIST):
-                return new Whitelist($domains);
-            case (FilterList::TYPE_BLACKLIST):
-                return new Blacklist($domains);
-            default:
-                throw new InvalidListTypeException($type . ' is not a valid list type.');
-        }
+        return new Whitelist($elements);
+    }
+
+    /**
+     * Create a FilterList with the type of FilterList::TYPE_BLACKLIST
+     *
+     * @param array $elements
+     * @return FilterListInterface
+     * @throws NonStringException
+     */
+    public static function createBlacklist(array $elements = []): FilterListInterface
+    {
+        return new Blacklist($elements);
     }
 }

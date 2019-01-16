@@ -28,19 +28,13 @@ class ListFactoryTest extends TestCase
 {
     public function testCreateWhitelist()
     {
-        $list = ListFactory::create(FilterList::TYPE_WHITELIST, []);
+        $list = ListFactory::createWhitelist([]);
         $this->assertInstanceOf(Whitelist::class, $list);
     }
 
     public function testCreateBlacklist()
     {
-        $list = ListFactory::create(FilterList::TYPE_BLACKLIST, []);
+        $list = ListFactory::createBlacklist([]);
         $this->assertInstanceOf(Blacklist::class, $list);
-    }
-
-    public function testCreateInvalidListType()
-    {
-        $this->expectException(InvalidListTypeException::class);
-        ListFactory::create('invalid_list_type', []);
     }
 }
