@@ -1,7 +1,17 @@
 {
-    "name": "theroadbunch/list-filter",
+    "name": "theroadbunch/filter-lists",
     "description": "A whitelist/blacklist library for strings",
     "type": "library",
+    "autoload": {
+        "psr-4": {
+            "RoadBunch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RoadBunch\\Tests\\": "tests/"
+        }
+    },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
         "symfony/var-dumper": "^4.2"
@@ -13,5 +23,7 @@
             "email": "danmcadams@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^7.2"
+    }
 }
