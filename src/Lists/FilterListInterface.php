@@ -12,15 +12,17 @@ namespace RoadBunch\Lists;
 
 
 /**
- * Class Blacklist
+ * Interface FilterListInterface
  *
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-class Blacklist extends FilterList
+interface FilterListInterface extends StringCollectionInterface
 {
-    public function __construct(array $elements = [])
-    {
-        parent::__construct(static::TYPE_BLACKLIST, $elements);
-    }
+    /**
+     * The list type
+     *
+     * @return string
+     */
+    public function getType(): string;
 }

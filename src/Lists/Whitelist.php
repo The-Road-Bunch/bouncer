@@ -19,16 +19,8 @@ namespace RoadBunch\Lists;
  */
 class Whitelist extends FilterList
 {
-    /**
-     * Whitelist validation: returns true if the domain IS found in this list
-     *
-     * @param string $element
-     *
-     * @return bool
-     */
-    public function validate(string $element): bool
+    public function __construct(array $elements = [])
     {
-        return $this->has($element);
+        parent::__construct(static::TYPE_WHITELIST, $elements);
     }
 }
-

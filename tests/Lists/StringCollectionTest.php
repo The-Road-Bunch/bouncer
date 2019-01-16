@@ -11,7 +11,6 @@
 namespace RoadBunch\Tests\Lists;
 
 
-use mysql_xdevapi\Collection;
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\NonStringException;
 use RoadBunch\Lists\StringCollection;

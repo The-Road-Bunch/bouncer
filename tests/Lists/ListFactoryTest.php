@@ -13,6 +13,7 @@ namespace RoadBunch\Tests\Lists;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\Blacklist;
+use RoadBunch\Lists\FilterList;
 use RoadBunch\Lists\InvalidListTypeException;
 use RoadBunch\Lists\ListFactory;
 use RoadBunch\Lists\Whitelist;
@@ -25,18 +26,15 @@ use RoadBunch\Lists\Whitelist;
  */
 class ListFactoryTest extends TestCase
 {
-    const TYPE_WHITELIST = 'whitelist';
-    const TYPE_BLACKLIST = 'blacklist';
-
     public function testCreateWhitelist()
     {
-        $list = ListFactory::create(self::TYPE_WHITELIST, []);
+        $list = ListFactory::create(FilterList::TYPE_WHITELIST, []);
         $this->assertInstanceOf(Whitelist::class, $list);
     }
 
     public function testCreateBlacklist()
     {
-        $list = ListFactory::create(self::TYPE_BLACKLIST, []);
+        $list = ListFactory::create(FilterList::TYPE_BLACKLIST, []);
         $this->assertInstanceOf(Blacklist::class, $list);
     }
 

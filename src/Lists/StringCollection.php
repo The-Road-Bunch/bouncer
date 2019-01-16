@@ -11,10 +11,16 @@
 namespace RoadBunch\Lists;
 
 
-class StringCollection
+class StringCollection implements StringCollectionInterface
 {
     protected $elements = [];
 
+    /**
+     * StringCollection constructor.
+     *
+     * @param string[] $elements
+     * @throws NonStringException
+     */
     public function __construct(array $elements = [])
     {
         foreach ($elements as $element) {
@@ -27,6 +33,11 @@ class StringCollection
         }
     }
 
+    /**
+     * Add an element, duplicates will be ignored
+     *
+     * @param string $element
+     */
     public function add(string $element): void
     {
         if (!in_array($element, $this->elements)) {
@@ -34,11 +45,22 @@ class StringCollection
         }
     }
 
+    /**
+     * Check to see if an element exists in the lists
+     *
+     * @param string $element
+     * @return bool
+     */
     public function has(string $element): bool
     {
         return in_array($element, $this->elements);
     }
 
+    /**
+     * Remove an element from the list
+     *
+     * @param string $str
+     */
     public function remove(string $str): void
     {
         $index = array_search($str, $this->elements);

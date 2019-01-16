@@ -22,11 +22,12 @@ class ListFactory
     public static function create(string $type, array $domains = [])
     {
         switch (strtolower($type)) {
-            case ('whitelist'):
+            case (FilterList::TYPE_WHITELIST):
                 return new Whitelist($domains);
-            case ('blacklist'):
+            case (FilterList::TYPE_BLACKLIST):
                 return new Blacklist($domains);
+            default:
+                throw new InvalidListTypeException($type . ' is not a valid list type.');
         }
-        throw new InvalidListTypeException($type . ' is not a valid list type.');
     }
 }

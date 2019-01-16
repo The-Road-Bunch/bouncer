@@ -29,9 +29,6 @@ class WhitelistTest extends TestCase
         $whitelist = new Whitelist([$domain]);
 
         $this->assertInstanceOf(FilterList::class, $whitelist);
-
-        $this->assertTrue($whitelist->validate($domain));
-        $this->assertFalse($whitelist->validate('example.com'));
+        $this->assertEquals(FilterList::TYPE_WHITELIST, $whitelist->getType());
     }
 }
-

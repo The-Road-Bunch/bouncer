@@ -17,43 +17,34 @@ namespace RoadBunch\Lists;
  * @author  Dan McAdams
  * @package RoadBunch\Domain
  */
-abstract class FilterList
+class FilterList extends StringCollection implements FilterListInterface
 {
-    protected $elements = [];
+    const TYPE_WHITELIST = 'whitelist';
+    const TYPE_BLACKLIST = 'blacklist';
+
+    protected $type;
 
     /**
      * FilterList constructor.
      *
+     * @param string   $type
      * @param string[] $elements An array of strings
      *
-     * @throws \Exception
+     * @throws NonStringException
      */
-    public function __construct(array $elements = [])
+    public function __construct(string $type, array $elements = [])
     {
-        foreach ($elements as $str) {
-            if (!is_string($str)) {
-                throw new \Exception('All elements must be an strings');
-            }
-        }
-        $this->elements = $elements;
-    }
-
-    /***
-     * @param string $element
-     *
-     * @return bool returns TRUE if the string is found in the list
-     */
-    protected function has(string $element): bool
-    {
-        return in_array($element, $this->elements);
+        $this->type = $type;
+        parent::__construct($elements);
     }
 
     /**
-     * Return true or false based on the rules of the list
+     * The list type
      *
-     * @param string $element
-     *
-     * @return bool
+     * @return string
      */
-    abstract public function validate(string $element): bool;
+    public function getType(): string
+    {
+        return $this->type;
+    }
 }

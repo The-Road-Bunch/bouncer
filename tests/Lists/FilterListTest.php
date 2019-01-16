@@ -22,51 +22,11 @@ use RoadBunch\Lists\FilterList;
  */
 class FilterListTest extends TestCase
 {
-    public function testListDoesNotHaveString()
-    {
-        $filterList = new TestFilterList([]);
-        $this->assertFalse($filterList->validate('example.com'));
-    }
+    const WHITELIST = 'whitelist';
 
-    public function testListHasDomain()
+    public function testGetListType()
     {
-        $domain     = 'example.com';
-        $filterList = new TestFilterList([$domain]);
-
-        $this->assertTrue($filterList->validate($domain));
-    }
-
-    /**
-     * @dataProvider invalidDomainListProvider
-     *
-     * @throws \Exception
-     */
-    public function testDomainPassedAsNonStringThrowsException($value)
-    {
-        $this->expectException(\Exception::class);
-        new TestFilterList([$value]);
-    }
-
-    public function invalidDomainListProvider()
-    {
-        yield [[]];
-        yield [5];
-        yield [false];
-        yield [true];
-    }
-}
-
-class TestFilterList extends FilterList
-{
-    /**
-     * Return true or false based on the rules of the list
-     *
-     * @param string $domain
-     *
-     * @return bool
-     */
-    public function validate(string $element): bool
-    {
-        return $this->has($element);
+        $filterList = new FilterList(self::WHITELIST, []);
+        $this->assertEquals(self::WHITELIST, $filterList->getType());
     }
 }

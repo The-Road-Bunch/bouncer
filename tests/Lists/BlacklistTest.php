@@ -28,8 +28,6 @@ class BlacklistTest extends TestCase
         $blacklist = new Blacklist([$domain]);
 
         $this->assertInstanceOf(FilterList::class, $blacklist);
-
-        $this->assertFalse($blacklist->validate($domain));
-        $this->assertTrue($blacklist->validate('example.com'));
+        $this->assertEquals(FilterList::TYPE_BLACKLIST, $blacklist->getType());
     }
 }
