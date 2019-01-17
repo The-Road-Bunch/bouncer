@@ -13,8 +13,6 @@ namespace RoadBunch\Tests\Lists;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\FilterList;
-use RoadBunch\Lists\InvalidListTypeException;
 use RoadBunch\Lists\ListFactory;
 use RoadBunch\Lists\Whitelist;
 
