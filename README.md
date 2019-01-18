@@ -1,5 +1,5 @@
 # theroadbunch/filter-lists [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/filter-lists/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/filter-lists/)
-A small library for validating domains against a blacklist/whitelist, and checking if the domain is valid  
+A list collection with a type. This library is tailored to using a list of strings as a blacklist/whitelist, but could be used for any collection of strings that has a name  
   
 [![Latest Stable Version](https://img.shields.io/packagist/v/theroadbunch/filter-lists.svg)](https://packagist.org/packages/theroadbunch/filter-lists)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -43,59 +43,55 @@ dan@example.com has been blacklisted!
 
 In the previous example, you could really just use an array, but the blacklist/whitelist labels have an advantage
 when deciding how to filter something.
+
+Take this simple `Mailer` class below
 ```php
 <?php
 
-use RoadBunch\Lists\ListFactory;
 use RoadBunch\Lists\FilterListInterface;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Lists\BlacklistValidator;
+use RoadBunch\Lists\Blacklist;
+use RoadBunch\Lists\Whitelist;
 
 class Mailer
 {
-    /** @var FilterListInterface */
-    protected $filterList;
+    /** @var BlacklistValidator */
+    protected $blacklist;
     
-    public function __construct(FilterListInterface $filterList = null)
+    public function __construct(FilterListInterface $filterList)
     {
-        $this->filterList = $filterList;
+        // set your blacklist validator
+        $this->blacklist = new BlacklistValidator($filterList);
     }
     
     public function mail($message, $email)
-    {
-        if ($this->passesListValidation($email)) {
-            echo 'Mail sent!';          
-        } else {
-            echo 'This email address is blacklisted!';
-        }
+    {       
+        if ($this->blacklist->isBlacklisted($email)) {
+            return 'Address is blacklisted';
+        }             
+        return $this->sendEmail($message, $email);
     }
     
-    private function passesListValidation(string $email)
+    public function sendEmail($message, $email)
     {
-        if (null === $this->filterList) {
-            return true;
-        }
-        
-        switch ($this->filterList->getType()) {
-            case (FilterList::TYPE_WHITELIST):
-                return $this->filterList->has($email);
-            case (FilterList::TYPE_BLACKLIST):
-                return !$this->filterList->has($email);
-        }
+        // send email
+        return 'Email Sent!';
     }
 }
 
-$whitelist = ListFactory::createWhitelist(['dan@example.com']);
-$mailer    = new Mailer($whitelist);
+// create a pre-defined Blacklist and inject it into the mailer
+$blacklist  = new Blacklist(['test@example.com']);
+$mailer     = new Mailer($blacklist);
 
-$mailer->mail('heyo', 'dan@example.com');
+// outputs "Address is blacklisted"
+echo $mailer->mail('Hello, World!', 'test@example.com');
 
-// output
-Mail sent!
+// you can do the same thing with a whitelist
+$whitelist  = new Whitelist(['test@example.com']);
+$mailer     = new Mailer($whitelist);
 
-$mailer->mail('hey', 'notinlist@example.com');
-
-// output
-This email address is blacklisted!
+// outputs "Email Sent!"
+echo $mailer->mail('Hello, World!', 'test@example.com');
 ``` 
 
 ## License
