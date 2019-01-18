@@ -71,7 +71,7 @@ class StringCollectionTest extends TestCase
     public function testNonString()
     {
         $this->expectException(NonStringException::class);
-        $collection = new StringCollection([null, []]);
+        new StringCollection([null, []]);
     }
 }
 

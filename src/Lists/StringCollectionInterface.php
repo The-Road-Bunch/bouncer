@@ -37,7 +37,7 @@ interface StringCollectionInterface
     /**
      * Remove an element from the list
      *
-     * @param string $str
+     * @param string $element
      */
-    public function remove(string $str): void;
+    public function remove(string $element): void;
 }

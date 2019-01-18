@@ -59,11 +59,11 @@ class StringCollection implements StringCollectionInterface
     /**
      * Remove an element from the list
      *
-     * @param string $str
+     * @param string $element
      */
-    public function remove(string $str): void
+    public function remove(string $element): void
     {
-        $index = array_search($str, $this->elements);
+        $index = array_search($element, $this->elements);
 
         if ($index !== false) {
             unset($this->elements[$index]);
