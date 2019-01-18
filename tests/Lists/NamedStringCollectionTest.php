@@ -27,6 +27,6 @@ class NamedStringCollectionTest extends TestCase
     public function testGetListType()
     {
         $filterList = new NamedStringCollection(self::WHITELIST, []);
-        $this->assertEquals(self::WHITELIST, $filterList->getType());
+        $this->assertEquals(self::WHITELIST, $filterList->name());
     }
 }

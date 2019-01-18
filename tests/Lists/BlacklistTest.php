@@ -28,6 +28,6 @@ class BlacklistTest extends TestCase
         $blacklist = new Blacklist([$domain]);
 
         $this->assertInstanceOf(NamedStringCollection::class, $blacklist);
-        $this->assertEquals(NamedStringCollection::TYPE_BLACKLIST, $blacklist->getType());
+        $this->assertEquals(NamedStringCollection::TYPE_BLACKLIST, $blacklist->name());
     }
 }

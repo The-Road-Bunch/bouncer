@@ -41,7 +41,7 @@ class NamedStringCollection extends StringCollection implements NamedStringColle
      *
      * @return string
      */
-    public function getType(): string
+    public function name(): string
     {
         return $this->type;
     }

@@ -24,5 +24,5 @@ interface NamedStringCollectionInterface extends StringCollectionInterface
      *
      * @return string
      */
-    public function getType(): string;
+    public function name(): string;
 }

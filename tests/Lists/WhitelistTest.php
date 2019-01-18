@@ -29,6 +29,6 @@ class WhitelistTest extends TestCase
         $whitelist = new Whitelist([$domain]);
 
         $this->assertInstanceOf(NamedStringCollection::class, $whitelist);
-        $this->assertEquals(NamedStringCollection::TYPE_WHITELIST, $whitelist->getType());
+        $this->assertEquals(NamedStringCollection::TYPE_WHITELIST, $whitelist->name());
     }
 }
