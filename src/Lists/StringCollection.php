@@ -19,15 +19,12 @@ class StringCollection implements StringCollectionInterface
      * StringCollection constructor.
      *
      * @param string[] $elements
-     * @throws NonStringException
      */
     public function __construct(array $elements = [])
     {
         foreach ($elements as $element) {
             if (!is_string($element)) {
-                // unfortunately this can't be avoided until we get collections in PHP, then this whole
-                // library will be worthless
-                throw new NonStringException('All elements must be strings');
+                throw new \InvalidArgumentException('All elements must be strings');
             }
             $this->add($element);
         }

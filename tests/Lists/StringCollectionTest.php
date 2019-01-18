@@ -70,7 +70,7 @@ class StringCollectionTest extends TestCase
 
     public function testNonString()
     {
-        $this->expectException(NonStringException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new StringCollection([null, []]);
     }
 }
