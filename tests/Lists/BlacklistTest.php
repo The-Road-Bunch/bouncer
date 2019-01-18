@@ -12,7 +12,7 @@ namespace RoadBunch\Tests\Lists;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Lists\NamedStringCollection;
 
 /**
  * Class BlacklistTest
@@ -27,7 +27,7 @@ class BlacklistTest extends TestCase
         $domain    = 'blacklisted.com';
         $blacklist = new Blacklist([$domain]);
 
-        $this->assertInstanceOf(FilterList::class, $blacklist);
-        $this->assertEquals(FilterList::TYPE_BLACKLIST, $blacklist->getType());
+        $this->assertInstanceOf(NamedStringCollection::class, $blacklist);
+        $this->assertEquals(NamedStringCollection::TYPE_BLACKLIST, $blacklist->getType());
     }
 }

@@ -17,7 +17,7 @@ namespace RoadBunch\Lists;
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-class Blacklist extends FilterList
+class Blacklist extends NamedStringCollection
 {
     public function __construct(array $elements = [])
     {

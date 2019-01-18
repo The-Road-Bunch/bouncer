@@ -12,7 +12,7 @@ namespace RoadBunch\Tests\Lists;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Lists\NamedStringCollection;
 use RoadBunch\Lists\Whitelist;
 
 /**
@@ -28,7 +28,7 @@ class WhitelistTest extends TestCase
         $domain    = 'whitelisted.com';
         $whitelist = new Whitelist([$domain]);
 
-        $this->assertInstanceOf(FilterList::class, $whitelist);
-        $this->assertEquals(FilterList::TYPE_WHITELIST, $whitelist->getType());
+        $this->assertInstanceOf(NamedStringCollection::class, $whitelist);
+        $this->assertEquals(NamedStringCollection::TYPE_WHITELIST, $whitelist->getType());
     }
 }

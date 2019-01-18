@@ -14,20 +14,20 @@ namespace RoadBunch\Lists;
 class BlacklistValidator
 {
     /**
-     * @var FilterList
+     * @var NamedStringCollection
      */
     protected $filterList;
 
     /**
      * BlacklistValidator constructor.
      *
-     * @param FilterListInterface $filterList
+     * @param NamedStringCollectionInterface $filterList
      *
      * @throws InvalidListTypeException
      */
-    public function __construct(FilterListInterface $filterList)
+    public function __construct(NamedStringCollectionInterface $filterList)
     {
-        $validListTypes = [FilterList::TYPE_BLACKLIST, FilterList::TYPE_WHITELIST];
+        $validListTypes = [NamedStringCollection::TYPE_BLACKLIST, NamedStringCollection::TYPE_WHITELIST];
 
         if (!in_array($filterList->getType(), $validListTypes)) {
             throw new InvalidListTypeException("The provided FilterList must be of type 'whitelist' or 'blacklist'");
@@ -44,7 +44,7 @@ class BlacklistValidator
      */
     public function isBlacklisted(string $element): bool
     {
-        if (FilterList::TYPE_WHITELIST === $this->filterList->getType()) {
+        if (NamedStringCollection::TYPE_WHITELIST === $this->filterList->getType()) {
             return !$this->filterList->has($element);
         }
         return $this->filterList->has($element);

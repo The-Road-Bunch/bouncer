@@ -12,7 +12,7 @@ namespace RoadBunch\Tests\Lists;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Lists\NamedStringCollection;
 
 /**
  * Class FilterListTest
@@ -20,13 +20,13 @@ use RoadBunch\Lists\FilterList;
  * @author  Dan McAdams
  * @package RoadBunch\Tests\Lists
  */
-class FilterListTest extends TestCase
+class NamedStringCollectionTest extends TestCase
 {
     const WHITELIST = 'whitelist';
 
     public function testGetListType()
     {
-        $filterList = new FilterList(self::WHITELIST, []);
+        $filterList = new NamedStringCollection(self::WHITELIST, []);
         $this->assertEquals(self::WHITELIST, $filterList->getType());
     }
 }

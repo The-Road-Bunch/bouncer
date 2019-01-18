@@ -12,7 +12,6 @@ namespace RoadBunch\Tests\Lists;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\NonStringException;
 use RoadBunch\Lists\StringCollection;
 
 class StringCollectionTest extends TestCase

@@ -17,7 +17,7 @@ namespace RoadBunch\Lists;
  * @author  Dan McAdams
  * @package RoadBunch\Domain
  */
-class FilterList extends StringCollection implements FilterListInterface
+class NamedStringCollection extends StringCollection implements NamedStringCollectionInterface
 {
     const TYPE_WHITELIST = 'whitelist';
     const TYPE_BLACKLIST = 'blacklist';
@@ -29,8 +29,6 @@ class FilterList extends StringCollection implements FilterListInterface
      *
      * @param string   $type
      * @param string[] $elements An array of strings
-     *
-     * @throws NonStringException
      */
     public function __construct(string $type, array $elements = [])
     {

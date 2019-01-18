@@ -13,7 +13,7 @@ namespace RoadBunch\Tests\Lists;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Lists\NamedStringCollection;
 use RoadBunch\Lists\InvalidListTypeException;
 use RoadBunch\Lists\BlacklistValidator;
 use RoadBunch\Lists\Whitelist;
@@ -54,7 +54,7 @@ class BlacklistValidatorTest extends TestCase
     {
         $this->expectException(InvalidListTypeException::class);
 
-        $filterList = new FilterList('not-a-black-or-white-list', []);
+        $filterList = new NamedStringCollection('not-a-black-or-white-list', []);
         new BlacklistValidator($filterList);
     }
 }

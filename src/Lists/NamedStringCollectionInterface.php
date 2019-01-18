@@ -17,7 +17,7 @@ namespace RoadBunch\Lists;
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-interface FilterListInterface extends StringCollectionInterface
+interface NamedStringCollectionInterface extends StringCollectionInterface
 {
     /**
      * The list type

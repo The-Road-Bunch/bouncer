@@ -17,7 +17,7 @@ namespace RoadBunch\Lists;
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-class Whitelist extends FilterList
+class Whitelist extends NamedStringCollection
 {
     public function __construct(array $elements = [])
     {
