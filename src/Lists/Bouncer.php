@@ -11,7 +11,7 @@
 namespace RoadBunch\Lists;
 
 
-class BlacklistValidator
+class Bouncer
 {
     const BLACKLIST = NamedStringCollection::TYPE_BLACKLIST;
     const WHITELIST = NamedStringCollection::TYPE_WHITELIST;
@@ -47,9 +47,21 @@ class BlacklistValidator
      */
     public function isBlacklisted(string $element): bool
     {
-        if (self::WHITELIST === $this->filterList->name()) {
-            return !$this->filterList->has($element);
+        if (self::BLACKLIST === $this->filterList->name()) {
+            return $this->filterList->has($element);
         }
-        return $this->filterList->has($element);
+        return !$this->filterList->has($element);
+    }
+
+    /**
+     * Returns the opposite of isBlacklisted
+     *
+     * @param string $element
+     *
+     * @return bool
+     */
+    public function isAllowed(string $element): bool
+    {
+        return !$this->isBlacklisted($element);
     }
 }

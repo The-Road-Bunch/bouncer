@@ -18,36 +18,44 @@ use RoadBunch\Lists\InvalidListTypeException;
 use RoadBunch\Lists\Bouncer;
 use RoadBunch\Lists\Whitelist;
 
-class BlacklistValidatorTest extends TestCase
+/**
+ * Class BouncerTest
+ *
+ * @author  Dan McAdams
+ * @package RoadBunch\Tests\Lists
+ */
+class BouncerTest extends TestCase
 {
-    public function testCreateListValidatorWithBlacklist()
+    const TEST_STRING = 'test@example.com';
+
+    public function testBouncerWithWhitelist()
     {
-        $str = 'test@example.com';
-
-        // empty blacklist
-        $blacklist = new Blacklist();
-        $validator = new Bouncer($blacklist);
-
-        $this->assertFalse($validator->isBlacklisted($str));
-
-        // populate blacklist
-        $blacklist->add($str);
-        $this->assertTrue($validator->isBlacklisted($str));
-    }
-
-    public function testCreateListValidatorWithWhitelist()
-    {
-        $str = 'test@example.com';
+        $whitelist = new Whitelist();
+        $bouncer   = new Bouncer($whitelist);
 
         // empty whitelist
-        $whitelist = new Whitelist();
-        $validator = new Bouncer($whitelist);
+        $this->assertTrue($bouncer->isBlacklisted(self::TEST_STRING));
+        $this->assertFalse($bouncer->isAllowed(self::TEST_STRING));
 
-        $this->assertTrue($validator->isBlacklisted($str));
+        // populated whitelist
+        $whitelist->add(self::TEST_STRING);
+        $this->assertFalse($bouncer->isBlacklisted(self::TEST_STRING));
+        $this->assertTrue($bouncer->isAllowed(self::TEST_STRING));
+    }
 
-        // populate whitelist
-        $whitelist->add($str);
-        $this->assertFalse($validator->isBlacklisted($str));
+    public function testBouncerWithBlacklist()
+    {
+        $whitelist = new Blacklist();
+        $bouncer   = new Bouncer($whitelist);
+
+        // empty blacklist
+        $this->assertFalse($bouncer->isBlacklisted(self::TEST_STRING));
+        $this->assertTrue($bouncer->isAllowed(self::TEST_STRING));
+
+        // populated blacklist
+        $whitelist->add(self::TEST_STRING);
+        $this->assertTrue($bouncer->isBlacklisted(self::TEST_STRING));
+        $this->assertFalse($bouncer->isAllowed(self::TEST_STRING));
     }
 
     public function testCreateWithNonBlackOrWhiteList()
