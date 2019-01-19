@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Tests\Lists;
+namespace RoadBunch\Tests\Bouncer;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\NamedStringCollection;
-use RoadBunch\Lists\InvalidListTypeException;
-use RoadBunch\Lists\Bouncer;
-use RoadBunch\Lists\Whitelist;
+use RoadBunch\Bouncer\Blacklist;
+use RoadBunch\Bouncer\NamedStringCollection;
+use RoadBunch\Bouncer\InvalidListTypeException;
+use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Whitelist;
 
 /**
  * Class BouncerTest

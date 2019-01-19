@@ -8,21 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Lists;
+namespace RoadBunch\Bouncer;
 
 
 /**
- * Interface FilterListInterface
+ * Class Whitelist
  *
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-interface NamedStringCollectionInterface extends StringCollectionInterface
+class Whitelist extends NamedStringCollection
 {
-    /**
-     * The list type
-     *
-     * @return string
-     */
-    public function name(): string;
+    public function __construct(array $elements = [])
+    {
+        parent::__construct(static::TYPE_WHITELIST, $elements);
+    }
 }

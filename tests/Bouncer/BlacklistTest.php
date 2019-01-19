@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Tests\Lists;
+namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\NamedStringCollection;
+use RoadBunch\Bouncer\Blacklist;
+use RoadBunch\Bouncer\NamedStringCollection;
 
 /**
  * Class BlacklistTest

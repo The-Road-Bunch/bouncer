@@ -8,16 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Lists;
+namespace RoadBunch\Bouncer;
 
 
 /**
- * Class InvalidListTypeException
+ * Class Blacklist
  *
  * @author  Dan McAdams
  * @package RoadBunch\Lists
  */
-class InvalidListTypeException extends \Exception
+class Blacklist extends NamedStringCollection
 {
-
+    public function __construct(array $elements = [])
+    {
+        parent::__construct(static::TYPE_BLACKLIST, $elements);
+    }
 }
