@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use RoadBunch\Lists\Blacklist;
 use RoadBunch\Lists\NamedStringCollection;
 use RoadBunch\Lists\InvalidListTypeException;
-use RoadBunch\Lists\BlacklistValidator;
+use RoadBunch\Lists\Bouncer;
 use RoadBunch\Lists\Whitelist;
 
 class BlacklistValidatorTest extends TestCase
@@ -26,7 +26,7 @@ class BlacklistValidatorTest extends TestCase
 
         // empty blacklist
         $blacklist = new Blacklist();
-        $validator = new BlacklistValidator($blacklist);
+        $validator = new Bouncer($blacklist);
 
         $this->assertFalse($validator->isBlacklisted($str));
 
@@ -41,7 +41,7 @@ class BlacklistValidatorTest extends TestCase
 
         // empty whitelist
         $whitelist = new Whitelist();
-        $validator = new BlacklistValidator($whitelist);
+        $validator = new Bouncer($whitelist);
 
         $this->assertTrue($validator->isBlacklisted($str));
 
@@ -55,6 +55,6 @@ class BlacklistValidatorTest extends TestCase
         $this->expectException(InvalidListTypeException::class);
 
         $filterList = new NamedStringCollection('not-a-black-or-white-list', []);
-        new BlacklistValidator($filterList);
+        new Bouncer($filterList);
     }
 }
