@@ -20,7 +20,7 @@ namespace RoadBunch\Bouncer;
 interface NamedStringCollectionInterface extends StringCollectionInterface
 {
     /**
-     * The list type
+     * The list name
      *
      * @return string
      */

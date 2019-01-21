@@ -19,27 +19,27 @@ namespace RoadBunch\Bouncer;
  */
 class NamedStringCollection extends StringCollection implements NamedStringCollectionInterface
 {
-    protected $type;
+    protected $name;
 
     /**
      * FilterList constructor.
      *
-     * @param string   $type
+     * @param string   $name
      * @param string[] $elements An array of strings
      */
-    public function __construct(string $type, array $elements = [])
+    public function __construct(string $name, array $elements = [])
     {
-        $this->type = $type;
+        $this->name = $name;
         parent::__construct($elements);
     }
 
     /**
-     * The list type
+     * The list name
      *
      * @return string
      */
     public function name(): string
     {
-        return $this->type;
+        return $this->name;
     }
 }
