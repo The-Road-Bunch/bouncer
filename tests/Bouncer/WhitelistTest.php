@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the theroadbunch/filter-lists package.
+ * This file is part of the theroadbunch/bouncer package.
  *
  * (c) Dan McAdams <danmcadams@gmail.com>
  *
