@@ -13,8 +13,8 @@ namespace RoadBunch\Bouncer;
 
 class Bouncer
 {
-    const BLACKLIST = NamedStringCollection::TYPE_BLACKLIST;
-    const WHITELIST = NamedStringCollection::TYPE_WHITELIST;
+    const BLACKLIST = 'blacklist';
+    const WHITELIST = 'whitelist';
 
     /**
      * @var NamedStringCollection
@@ -28,14 +28,12 @@ class Bouncer
      *
      * @throws InvalidListTypeException
      */
-    public function __construct(NamedStringCollectionInterface $filterList)
+    public function __construct(NamedStringCollectionInterface $filterList = null)
     {
-        $validListTypes = [self::BLACKLIST, self::WHITELIST];
-
-        if (!in_array($filterList->name(), $validListTypes)) {
-            throw new InvalidListTypeException("The provided FilterList must be of type 'whitelist' or 'blacklist'");
+        if ($filterList !== null) {
+            $this->validateListType($filterList);
         }
-        $this->filterList = $filterList;
+        $this->filterList = $filterList ?? new Blacklist();
     }
 
     /**
@@ -47,7 +45,7 @@ class Bouncer
      */
     public function isBlacklisted(string $element): bool
     {
-        if (self::BLACKLIST === $this->filterList->name()) {
+        if ($this->hasBlacklist()) {
             return $this->filterList->has($element);
         }
         return !$this->filterList->has($element);
@@ -63,5 +61,51 @@ class Bouncer
     public function isAllowed(string $element): bool
     {
         return !$this->isBlacklisted($element);
+    }
+
+    /**
+     * @param string $element
+     */
+    public function addToWhitelist(string $element): void
+    {
+        if ($this->hasBlacklist()) {
+            $this->filterList->remove($element);
+            return;
+        }
+        $this->filterList->add($element);
+    }
+
+    /**
+     * @param string $element
+     */
+    public function addToBlacklist(string $element): void
+    {
+        if ($this->hasBlacklist()) {
+            $this->filterList->add($element);
+            return;
+        }
+        $this->filterList->remove($element);
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasBlacklist(): bool
+    {
+        return $this->filterList->name() === self::BLACKLIST;
+    }
+
+    /**
+     * @param NamedStringCollectionInterface $filterList
+     *
+     * @throws InvalidListTypeException
+     */
+    private function validateListType(NamedStringCollectionInterface $filterList): void
+    {
+        $validListTypes = [self::BLACKLIST, self::WHITELIST];
+
+        if (!in_array($filterList->name(), $validListTypes)) {
+            throw new InvalidListTypeException("The provided FilterList must be of type 'whitelist' or 'blacklist'");
+        }
     }
 }

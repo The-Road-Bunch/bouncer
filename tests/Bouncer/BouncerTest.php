@@ -26,36 +26,75 @@ use RoadBunch\Bouncer\Whitelist;
  */
 class BouncerTest extends TestCase
 {
-    const TEST_STRING = 'test@example.com';
-
-    public function testBouncerWithWhitelist()
+    public function testWithEmptyWhitelistDisallowsAllStrings()
     {
-        $whitelist = new Whitelist();
-        $bouncer   = new Bouncer($whitelist);
+        $bouncer = new Bouncer(new Whitelist());
 
-        // empty whitelist
-        $this->assertTrue($bouncer->isBlacklisted(self::TEST_STRING));
-        $this->assertFalse($bouncer->isAllowed(self::TEST_STRING));
-
-        // populated whitelist
-        $whitelist->add(self::TEST_STRING);
-        $this->assertFalse($bouncer->isBlacklisted(self::TEST_STRING));
-        $this->assertTrue($bouncer->isAllowed(self::TEST_STRING));
+        $this->assertFalse($bouncer->isAllowed('not-in-whitelist'));
+        $this->assertTrue($bouncer->isBlacklisted('also-not-in-whitelist'));
     }
 
-    public function testBouncerWithBlacklist()
+    public function testWithWhitelistAllowsOnlyWhitelistedStrings()
     {
-        $whitelist = new Blacklist();
-        $bouncer   = new Bouncer($whitelist);
+        $whitelisted = 'whitelisted';
+        $bouncer     = new Bouncer(new Whitelist([$whitelisted]));
 
-        // empty blacklist
-        $this->assertFalse($bouncer->isBlacklisted(self::TEST_STRING));
-        $this->assertTrue($bouncer->isAllowed(self::TEST_STRING));
+        $this->assertTrue($bouncer->isAllowed($whitelisted));
+        $this->assertFalse($bouncer->isBlacklisted($whitelisted));
+    }
 
-        // populated blacklist
-        $whitelist->add(self::TEST_STRING);
-        $this->assertTrue($bouncer->isBlacklisted(self::TEST_STRING));
-        $this->assertFalse($bouncer->isAllowed(self::TEST_STRING));
+    public function testWithEmptyBlacklistAllowsAllStrings()
+    {
+        $bouncer = new Bouncer(new Blacklist());
+
+        $this->assertFalse($bouncer->isBlacklisted('not-in-blacklist'));
+        $this->assertTrue($bouncer->isAllowed('also-not-in-blacklist'));
+    }
+
+    public function testWithBlacklistDisallowsBlacklistedStrings()
+    {
+        $blacklisted = 'blacklisted';
+        $bouncer     = new Bouncer(new Blacklist([$blacklisted]));
+
+        $this->assertTrue($bouncer->isBlacklisted($blacklisted));
+        $this->assertFalse($bouncer->isAllowed($blacklisted));
+    }
+
+    public function testAllowAndDisallowPreviouslyBlacklistedString()
+    {
+        $blacklisted = 'blacklisted';
+        $blacklist   = new Blacklist([$blacklisted]);
+        $bouncer     = new Bouncer($blacklist);
+
+        $bouncer->addToWhitelist($blacklisted);
+        $this->assertFalse($bouncer->isBlacklisted($blacklisted));
+
+        $bouncer->addToBlacklist($blacklisted);
+        $this->assertTrue($bouncer->isBlacklisted($blacklisted));
+    }
+
+    public function testDisallowAndAllowPreviouslyWhitelistedString()
+    {
+        $whitelisted = 'whitelisted';
+        $whitelist   = new Whitelist([$whitelisted]);
+        $bouncer     = new Bouncer($whitelist);
+
+        $bouncer->addToBlacklist($whitelisted);
+        $this->assertFalse($bouncer->isAllowed($whitelisted));
+
+        $bouncer->addToWhitelist($whitelisted);
+        $this->assertTrue($bouncer->isAllowed($whitelisted));
+    }
+
+    public function testCreateWithEmptyListDefaultsToEmptyBlacklist()
+    {
+        $str     = 'test string';
+        $bouncer = new Bouncer();
+
+        $this->assertFalse($bouncer->isBlacklisted($str));
+
+        $bouncer->addToBlacklist($str);
+        $this->assertTrue($bouncer->isBlacklisted($str));
     }
 
     public function testCreateWithNonBlackOrWhiteList()
