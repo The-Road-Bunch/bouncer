@@ -21,6 +21,6 @@ class Blacklist extends NamedStringCollection
 {
     public function __construct(array $elements = [])
     {
-        parent::__construct(static::TYPE_BLACKLIST, $elements);
+        parent::__construct(Bouncer::BLACKLIST, $elements);
     }
 }

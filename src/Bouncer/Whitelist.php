@@ -21,6 +21,6 @@ class Whitelist extends NamedStringCollection
 {
     public function __construct(array $elements = [])
     {
-        parent::__construct(static::TYPE_WHITELIST, $elements);
+        parent::__construct(Bouncer::WHITELIST, $elements);
     }
 }

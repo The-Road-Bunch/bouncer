@@ -12,6 +12,7 @@ namespace RoadBunch\Tests\Bouncer;
 
 
 use PHPUnit\Framework\TestCase;
+use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\NamedStringCollection;
 use RoadBunch\Bouncer\Whitelist;
 
@@ -29,6 +30,6 @@ class WhitelistTest extends TestCase
         $whitelist = new Whitelist([$domain]);
 
         $this->assertInstanceOf(NamedStringCollection::class, $whitelist);
-        $this->assertEquals(NamedStringCollection::TYPE_WHITELIST, $whitelist->name());
+        $this->assertEquals(Bouncer::WHITELIST, $whitelist->name());
     }
 }

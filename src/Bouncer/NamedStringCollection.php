@@ -19,9 +19,6 @@ namespace RoadBunch\Bouncer;
  */
 class NamedStringCollection extends StringCollection implements NamedStringCollectionInterface
 {
-    const TYPE_WHITELIST = 'whitelist';
-    const TYPE_BLACKLIST = 'blacklist';
-
     protected $type;
 
     /**

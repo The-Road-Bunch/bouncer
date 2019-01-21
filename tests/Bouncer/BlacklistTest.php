@@ -12,6 +12,7 @@ namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\Blacklist;
+use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\NamedStringCollection;
 
 /**
@@ -28,6 +29,6 @@ class BlacklistTest extends TestCase
         $blacklist = new Blacklist([$domain]);
 
         $this->assertInstanceOf(NamedStringCollection::class, $blacklist);
-        $this->assertEquals(NamedStringCollection::TYPE_BLACKLIST, $blacklist->name());
+        $this->assertEquals(Bouncer::BLACKLIST, $blacklist->name());
     }
 }
