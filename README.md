@@ -1,68 +1,87 @@
-# theroadbunch/filter-lists [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/filter-lists/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/filter-lists/)
-A list collection with a type. This library is tailored to using a list of strings as a blacklist/whitelist, but could be used for any collection of strings that has a name  
+# theroadbunch/bouncer [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/)
+A library containing a Whitelist, a Blacklist, and a Bouncer class for use when you might need to filter some strings  
   
-[![Latest Stable Version](https://img.shields.io/packagist/v/theroadbunch/filter-lists.svg)](https://packagist.org/packages/theroadbunch/filter-lists)
+[![Latest Stable Version](https://img.shields.io/packagist/v/theroadbunch/bouncer.svg)](https://packagist.org/packages/theroadbunch/bouncer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Contents
-1. [Release Notes](doc/release.md)  
-2. [Installation](#installation)  
-3. [Usage](#usage)  
+1. [Installation](#installation)  
+2. [Usage](#usage)  
     a. [Basic Usage](#basic-usage)  
-4. [License](LICENSE)  
+3. [License](LICENSE)  
 
 ### <a name="installation">Install using composer</a> <sup><small>[[?]](https://getcomposer.org)</a></small></sup>
 
-`composer require theroadbunch/filter-lists`
+`composer require theroadbunch/bouncer`
 
 <a name="usage"></a>
 ### <a name="basic-usage">Basic Usage</a>
 
-Recommended usage for this library is to have blacklists and whitelists, but to use it in it's most basic form you can choose
-to use it as a named collection of strings
+Checking strings at the door using a blacklist
 ```php
 <?php
 
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Blacklist;
 
-$userList = new FilterList('user_list', ['bob']);
+$banned = [
+    'BadDancer29',
+    'DefinitelyNotAFakeId'
+];
 
-// returns 'user_list'
-$userList->getType();
+$blacklist = new Blacklist($banned);
+$bouncer   = new Bouncer($blacklist);
 
 // returns true
-$userList->has('bob');
+$bouncer->isBlacklisted('BadDancer29');
+$bouncer->isBlacklisted('DefinitelyNotAFakeId');
 ```
 
-You can take advantage of blacklist/whitelist validation by using the `BlacklistValidator` class, and providing a FilterList with the name of `blacklist` or `whitelist`
+Add more neck rolls by letting in only the most elite strings
 ```php
 <?php
 
-use RoadBunch\Lists\BlacklistValidator;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Whitelist;
 
-$filterList = new FilterList(FilterList::TYPE_BLACKLIST, ['blacklisted@example.com']);
-$blacklist  = new BlacklistValidator($filterList);
+$hotClients = [
+    'GreatDancer37',
+    'HotCeleb21'
+];
 
-// returns true
-$blacklist->isBlacklisted('blacklisted@example.com');
-
-// returns false
-$blacklist->isBlacklisted('dan@example.com');
-
-/**
- * This works with whitelists too 
- */
-
-$filterList = new FilterList(FilterList::TYPE_WHITELIST, ['dan@example.com']);
-$blacklist  = new BlacklistValidator($filterList);
+$whitelist = new Whitelist($hotClients);
+$bouncer   = new Bouncer($whitelist);
 
 // returns false
-$blacklist->isBlacklisted('dan@example.com');
-
-// returns true
-$blacklist->isBlacklisted('notwhitelisted@example.com');
+$bouncer->isBlacklisted('GreatDancer37');
+$bouncer->isBlacklisted('HotCeleb21');
 ``` 
+__Note:__ `Bouncer::isBlacklisted()` has a sister method called `Bouncer::isAllowed()` and they return opposite values. Use whichever makes your code easier to read.
+
+Add or Remove strings from a Blacklist or Whitelist in real time
+```php
+<?php
+
+use RoadBunch\Bouncer\Bouncer;
+
+// a Bouncer created with nothing passed to the constructor implements an empty Blacklist
+$bouncer = new Bouncer();
+
+// returns false
+$bouncer->isBlacklisted('test string');
+
+// add the string to the blacklist/remove from whitelist
+$bouncer->addToBlacklist('test string');
+
+// returns true
+$bouncer->isBlacklisted('test string');
+
+// remove from blacklist/add to whitelist
+$bouncer->addToWhitelist('test string');
+
+// returns false
+$bouncer->isBlacklisted('test string');
+```
 
 ## License
 The content of this library is released under the **MIT License** by **Dan McAdams**
