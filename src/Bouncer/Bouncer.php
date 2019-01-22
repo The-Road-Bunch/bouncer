@@ -34,7 +34,7 @@ class Bouncer
      *
      * @param NamedStringCollectionInterface $filterList
      *
-     * @throws InvalidListTypeException
+     * @throws InvalidCollectionNameException
      */
     public function __construct(NamedStringCollectionInterface $filterList = null)
     {
@@ -106,14 +106,14 @@ class Bouncer
     /**
      * @param NamedStringCollectionInterface $filterList
      *
-     * @throws InvalidListTypeException
+     * @throws InvalidCollectionNameException
      */
     private function validateListType(NamedStringCollectionInterface $filterList): void
     {
         $validListTypes = [self::BLACKLIST, self::WHITELIST];
 
         if (!in_array($filterList->name(), $validListTypes)) {
-            throw new InvalidListTypeException("The provided FilterList must be of type 'whitelist' or 'blacklist'");
+            throw new InvalidCollectionNameException("The provided FilterList must be of type 'whitelist' or 'blacklist'");
         }
     }
 }

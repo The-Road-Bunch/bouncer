@@ -13,7 +13,7 @@ namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\Blacklist;
-use RoadBunch\Bouncer\InvalidListTypeException;
+use RoadBunch\Bouncer\InvalidCollectionNameException;
 use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\Whitelist;
 use RoadBunch\String\NamedStringCollection;
@@ -99,7 +99,7 @@ class BouncerTest extends TestCase
 
     public function testCreateWithNonBlackOrWhiteList()
     {
-        $this->expectException(InvalidListTypeException::class);
+        $this->expectException(InvalidCollectionNameException::class);
 
         $filterList = new NamedStringCollection('not-a-black-or-white-list', []);
         new Bouncer($filterList);

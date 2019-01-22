@@ -17,7 +17,7 @@ namespace RoadBunch\Bouncer;
  * @author  Dan McAdams
  * @package RoadBunch\Bouncer
  */
-class InvalidListTypeException extends \Exception
+class InvalidCollectionNameException extends \Exception
 {
 
 }
