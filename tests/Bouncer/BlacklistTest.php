@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the theroadbunch/filter-lists package.
+ * This file is part of the theroadbunch/bouncer package.
  *
  * (c) Dan McAdams <danmcadams@gmail.com>
  *
@@ -8,17 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Tests\Lists;
+namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Lists\Blacklist;
-use RoadBunch\Lists\FilterList;
+use RoadBunch\Bouncer\Blacklist;
+use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\String\NamedStringCollection;
 
 /**
  * Class BlacklistTest
  *
  * @author  Dan McAdams
- * @package RoadBunch\Tests\Lists
+ * @package RoadBunch\Tests\Bouncer
  */
 class BlacklistTest extends TestCase
 {
@@ -27,9 +28,7 @@ class BlacklistTest extends TestCase
         $domain    = 'blacklisted.com';
         $blacklist = new Blacklist([$domain]);
 
-        $this->assertInstanceOf(FilterList::class, $blacklist);
-
-        $this->assertFalse($blacklist->validate($domain));
-        $this->assertTrue($blacklist->validate('example.com'));
+        $this->assertInstanceOf(NamedStringCollection::class, $blacklist);
+        $this->assertEquals(Bouncer::BLACKLIST, $blacklist->name());
     }
 }

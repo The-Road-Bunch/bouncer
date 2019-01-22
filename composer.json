@@ -1,6 +1,6 @@
 {
-    "name": "theroadbunch/filter-lists",
-    "description": "A whitelist/blacklist library for strings",
+    "name": "theroadbunch/bouncer",
+    "description": "",
     "type": "library",
     "autoload": {
         "psr-4": {

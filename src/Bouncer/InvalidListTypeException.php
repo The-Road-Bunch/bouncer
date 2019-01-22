@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the theroadbunch/filter-lists package.
+ * This file is part of the theroadbunch/bouncer package.
  *
  * (c) Dan McAdams <danmcadams@gmail.com>
  *
@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Lists;
+namespace RoadBunch\Bouncer;
 
 
 /**
  * Class InvalidListTypeException
  *
  * @author  Dan McAdams
- * @package RoadBunch\Lists
+ * @package RoadBunch\Bouncer
  */
 class InvalidListTypeException extends \Exception
 {
