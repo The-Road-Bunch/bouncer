@@ -11,13 +11,21 @@
 namespace RoadBunch\Bouncer;
 
 
+use RoadBunch\String\NamedStringCollectionInterface;
+
+/**
+ * Class Bouncer
+ *
+ * @author  Dan McAdams
+ * @package RoadBunch\Bouncer
+ */
 class Bouncer
 {
     const BLACKLIST = 'blacklist';
     const WHITELIST = 'whitelist';
 
     /**
-     * @var NamedStringCollection
+     * @var NamedStringCollectionInterface
      */
     protected $filterList;
 

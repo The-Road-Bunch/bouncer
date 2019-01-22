@@ -8,9 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Bouncer;
+namespace RoadBunch\String;
 
 
+/**
+ * Class StringCollection
+ *
+ * @author  Dan McAdams
+ * @package RoadBunch\String
+ */
 class StringCollection implements StringCollectionInterface
 {
     protected $elements = [];

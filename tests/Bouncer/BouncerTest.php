@@ -13,16 +13,16 @@ namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\Blacklist;
-use RoadBunch\Bouncer\NamedStringCollection;
 use RoadBunch\Bouncer\InvalidListTypeException;
 use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\Whitelist;
+use RoadBunch\String\NamedStringCollection;
 
 /**
  * Class BouncerTest
  *
  * @author  Dan McAdams
- * @package RoadBunch\Tests\Lists
+ * @package RoadBunch\Tests\Bouncer
  */
 class BouncerTest extends TestCase
 {

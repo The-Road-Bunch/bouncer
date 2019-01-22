@@ -8,12 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Tests\Bouncer;
+namespace RoadBunch\Tests\String;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Bouncer\StringCollection;
+use RoadBunch\String\StringCollection;
 
+/**
+ * Class StringCollectionTest
+ *
+ * @author  Dan McAdams
+ * @package RoadBunch\Tests\String
+ */
 class StringCollectionTest extends TestCase
 {
     const EXAMPLE_STR = 'dan@example.com';

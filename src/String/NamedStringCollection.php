@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Bouncer;
+namespace RoadBunch\String;
 
 
 /**
- * Class FilterList
+ * Class NamedStringCollection
  *
  * @author  Dan McAdams
- * @package RoadBunch\Domain
+ * @package RoadBunch\String
  */
 class NamedStringCollection extends StringCollection implements NamedStringCollectionInterface
 {

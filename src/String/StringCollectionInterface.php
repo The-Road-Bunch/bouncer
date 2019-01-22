@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Bouncer;
+namespace RoadBunch\String;
 
 
 /**
  * Interface StringCollectionInterface
  *
  * @author  Dan McAdams
- * @package RoadBunch\Lists
+ * @package RoadBunch\String
  */
 interface StringCollectionInterface
 {

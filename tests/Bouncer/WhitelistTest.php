@@ -13,14 +13,14 @@ namespace RoadBunch\Tests\Bouncer;
 
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\Bouncer;
-use RoadBunch\Bouncer\NamedStringCollection;
 use RoadBunch\Bouncer\Whitelist;
+use RoadBunch\String\NamedStringCollection;
 
 /**
  * Class WhitelistTest
  *
  * @author  Dan McAdams
- * @package RoadBunch\Tests\Lists
+ * @package RoadBunch\Tests\Bouncer
  */
 class WhitelistTest extends TestCase
 {

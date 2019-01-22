@@ -11,11 +11,13 @@
 namespace RoadBunch\Bouncer;
 
 
+use RoadBunch\String\NamedStringCollection;
+
 /**
  * Class Blacklist
  *
  * @author  Dan McAdams
- * @package RoadBunch\Lists
+ * @package RoadBunch\Bouncer
  */
 class Blacklist extends NamedStringCollection
 {

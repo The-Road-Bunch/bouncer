@@ -8,25 +8,24 @@
  * file that was distributed with this source code.
  */
 
-namespace RoadBunch\Tests\Bouncer;
+namespace RoadBunch\Tests\String;
 
 
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Bouncer\NamedStringCollection;
+use RoadBunch\String\NamedStringCollection;
 
 /**
- * Class FilterListTest
+ * Class NamedStringCollectionTest
  *
  * @author  Dan McAdams
- * @package RoadBunch\Tests\Lists
+ * @package RoadBunch\Tests\String
  */
 class NamedStringCollectionTest extends TestCase
 {
-    const WHITELIST = 'whitelist';
-
     public function testGetListType()
     {
-        $filterList = new NamedStringCollection(self::WHITELIST, []);
-        $this->assertEquals(self::WHITELIST, $filterList->name());
+        $name = 'blacklist';
+        $filterList = new NamedStringCollection($name, []);
+        $this->assertEquals($name, $filterList->name());
     }
 }

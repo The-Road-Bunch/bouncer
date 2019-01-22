@@ -11,11 +11,13 @@
 namespace RoadBunch\Bouncer;
 
 
+use RoadBunch\String\NamedStringCollection;
+
 /**
  * Class Whitelist
  *
  * @author  Dan McAdams
- * @package RoadBunch\Lists
+ * @package RoadBunch\Bouncer
  */
 class Whitelist extends NamedStringCollection
 {
