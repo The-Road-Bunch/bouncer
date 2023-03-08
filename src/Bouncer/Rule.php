@@ -13,17 +13,12 @@ namespace RoadBunch\Bouncer;
 
 
 /**
- * Class BouncerFactory
+ * Enum Rule
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-class BouncerFactory
+enum Rule
 {
-    public static function create(Rule $rule, array $subjects = []): BouncerInterface
-    {
-        return match ($rule) {
-            Rule::ALLOW => new AllowList($subjects),
-            Rule::DENY => new DenyList($subjects),
-        };
-    }
+    case DENY;
+    case ALLOW;
 }
