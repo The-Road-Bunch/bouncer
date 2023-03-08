@@ -1,5 +1,5 @@
 # theroadbunch/bouncer [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/)
-Bouncer is an easy-to-use block/allow list interface.  
+Bouncer is an easy-to-use block/deny list interface.  
 In this library is the interface and some usable classes to inject into your services.
   
 [![Latest Stable Version](https://img.shields.io/packagist/v/theroadbunch/bouncer.svg)](https://packagist.org/packages/theroadbunch/bouncer)
@@ -19,31 +19,32 @@ In this library is the interface and some usable classes to inject into your ser
 ### <a name="basic-usage">Basic Usage</a>
 
 Use `RoadBunch\Bouncer\BouncerFactory` to create your bouncer.  
-All bouncers implement `RoadBunch\Bouncer\BouncerInterface`  
+All bouncers implement `RoadBunch\Bouncer\BouncerInterface`
 
 ```php
 use RoadBunch\Bouncer\BouncerFactory;
-use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Rule;
 
-$subject = 'blockedAndAllowed';
+$subject = 'deniedAndAllowed';
 $subjectList = [$subject];
 
-$bouncer = BouncerFactory::create(Bouncer::ALLOW, $subjectList);
+$bouncer = BouncerFactory::create(Rule::ALLOW, $subjectList);
 $bouncer->isAllowed($subject); // true
 
-$bouncer = BouncerFactory::create(Bouncer::DENY, $subjectList);
+$bouncer = BouncerFactory::create(Rule::DENY, $subjectList);
 $bouncer->isAllowed($subject) // false
 ```
 
 Update the Bouncer in real time
+
 ```php
 use RoadBunch\Bouncer\BouncerFactory;
-use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Rule;
 
-$subject = 'allowedAndThenBlocked';
+$subject = 'allowedAndThenDenied';
 $subjectList = [$subject];
 
-$bouncer = BouncerFactory::create(Bouncer::ALLOW, $subjectList);
+$bouncer = BouncerFactory::create(Rule::ALLOW, $subjectList);
 $bouncer->isAllowed($subject); // true
 
 $bouncer->deny($subject);
@@ -56,7 +57,7 @@ Example of a real-world use-case
 <?php
 
 use Psr\Log\LoggerInterface;
-use RoadBunch\Bouncer\Bouncer;
+use RoadBunch\Bouncer\Rule;
 use RoadBunch\Bouncer\BouncerFactory;
 use RoadBunch\Bouncer\BouncerInterface;
 
@@ -83,9 +84,9 @@ class Mailer
     }
 }
 
-// with blocked list
+// with deny list
 
-$bouncer = BouncerFactory::create(Bouncer::DENY, ['someone@example.com']);
+$bouncer = BouncerFactory::create(Rule::DENY, ['someone@example.com']);
 $mailer = new Mailer($bouncer);
 
 $mailer->send('someone@example.com', 'Welcome!'); // logs warning
@@ -93,7 +94,7 @@ $mailer->send('someotheraddress@example.com', 'Welcome!'); // sends mail
 
 // with allowed list
 
-$bouncer = BouncerFactory::create(Bouncer::ALLOW, ['someone@example.com']);
+$bouncer = BouncerFactory::create(Rule::ALLOW, ['someone@example.com']);
 $mailer = new Mailer($bouncer);
 
 $mailer->send('someone@example.com', 'Welcome!'); // sends email
