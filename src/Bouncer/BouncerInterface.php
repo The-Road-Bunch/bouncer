@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of the theroadbunch/bouncer package.
  *
@@ -11,18 +12,14 @@
 namespace RoadBunch\Bouncer;
 
 
-use RoadBunch\String\NamedStringCollection;
-
 /**
- * Class Blacklist
+ * Interface BouncerInterface
  *
- * @author  Dan McAdams
- * @package RoadBunch\Bouncer
+ * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-class Blacklist extends NamedStringCollection
+interface BouncerInterface
 {
-    public function __construct(array $elements = [])
-    {
-        parent::__construct(Bouncer::BLACKLIST, $elements);
-    }
+    public function isAllowed(string $subject): bool;
+    public function allow(string $subject): void;
+    public function deny(string $subject): void;
 }

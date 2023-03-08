@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of the theroadbunch/bouncer package.
  *
@@ -12,12 +13,12 @@ namespace RoadBunch\Bouncer;
 
 
 /**
- * Class InvalidListTypeException
+ * Enum Rule
  *
- * @author  Dan McAdams
- * @package RoadBunch\Bouncer
+ * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-class InvalidCollectionNameException extends \Exception
+enum Rule
 {
-
+    case DENY;
+    case ALLOW;
 }
