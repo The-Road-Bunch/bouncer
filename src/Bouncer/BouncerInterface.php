@@ -13,10 +13,9 @@ namespace RoadBunch\Bouncer;
 
 
 /**
- * Class Bouncer
+ * Interface BouncerInterface
  *
- * @author  Dan McAdams
- * @package RoadBunch\Bouncer
+ * @author Dan McAdams <dan.mcadams@gmail.com>
  */
 interface BouncerInterface
 {
