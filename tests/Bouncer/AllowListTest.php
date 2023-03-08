@@ -12,9 +12,11 @@ declare(strict_types=1);
 namespace RoadBunch\Tests\Bouncer;
 
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\AllowList;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class AllowListTest
@@ -24,17 +26,20 @@ use RoadBunch\Bouncer\AllowList;
 #[CoversClass(AllowList::class)]
 final class AllowListTest extends TestCase
 {
-    public function testCreateBlacklist()
+    #[Test]
+    public function createAllowList()
     {
-        $domain = 'blacklisted.com';
+        $domain = 'allowed';
         $allowList = new AllowList([$domain]);
 
         $this->assertTrue($allowList->isAllowed($domain));
     }
 
-    public function testDenyRemovesStringFromBlockList(): void
+    #[Test]
+    #[TestDox('This does something')]
+    public function denyRemovesStringFromBlockList(): void
     {
-        $domain = 'blacklisted.com';
+        $domain = 'allowed';
         $allowList = new AllowList([$domain]);
 
         $this->assertTrue($allowList->isAllowed($domain));
@@ -43,9 +48,10 @@ final class AllowListTest extends TestCase
         $this->assertFalse($allowList->isAllowed($domain));
     }
 
-    public function testAllowAddsStringToBlockList(): void
+    #[Test]
+    public function allowAddsStringToBlockList(): void
     {
-        $domain = 'blacklisted.com';
+        $domain = 'allowed';
         $allowList = new AllowList();
 
         $this->assertFalse($allowList->isAllowed($domain));
@@ -54,7 +60,8 @@ final class AllowListTest extends TestCase
         $this->assertTrue($allowList->isAllowed($domain));
     }
 
-    public function testAddDuplicateString(): void
+    #[Test]
+    public function withDuplicateString(): void
     {
         $allowList = new AllowList(['d', 'd']);
         $this->assertTrue($allowList->isAllowed('d'));

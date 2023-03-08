@@ -12,9 +12,10 @@ declare(strict_types=1);
 namespace RoadBunch\Tests\Bouncer;
 
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\AbstractBouncer;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class AbstractBouncerTest
@@ -24,7 +25,8 @@ use RoadBunch\Bouncer\AbstractBouncer;
 #[CoversClass(AbstractBouncer::class)]
 final class AbstractBouncerTest extends TestCase
 {
-    public function testHasMethodValueFound(): void
+    #[Test]
+    public function hasMethodValueFound(): void
     {
         $subject = 'a string';
         $abstractBouncer = $this->createMockBouncer([$subject]);
@@ -32,7 +34,8 @@ final class AbstractBouncerTest extends TestCase
         $this->assertTrue($abstractBouncer->has($subject));
     }
 
-    public function testHasMethodValueNotFound(): void
+    #[Test]
+    public function hasMethodValueNotFound(): void
     {
         $abstractBouncer = $this->createMockBouncer();
         $subject = 'a string';
@@ -40,7 +43,8 @@ final class AbstractBouncerTest extends TestCase
         $this->assertFalse($abstractBouncer->has($subject));
     }
 
-    public function testAddValue(): void
+    #[Test]
+    public function addValue(): void
     {
         $abstractBouncer = $this->createMockBouncer();
         $subject = 'a string';
@@ -49,7 +53,8 @@ final class AbstractBouncerTest extends TestCase
         $this->assertTrue($abstractBouncer->has($subject));
     }
 
-    public function testRemoveValue(): void
+    #[Test]
+    public function removeValue(): void
     {
         $subject = 'a string';
         $abstractBouncer = $this->createMockBouncer([$subject]);
