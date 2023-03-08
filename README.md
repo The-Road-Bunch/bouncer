@@ -1,5 +1,6 @@
 # theroadbunch/bouncer [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/)
-A library containing a Whitelist, a Blacklist, and a Bouncer class for use when you might need to filter some strings  
+Bouncer is an easy-to-use block/allow list interface.  
+In this library is the interface and some usable classes to inject into your services.
   
 [![Latest Stable Version](https://img.shields.io/packagist/v/theroadbunch/bouncer.svg)](https://packagist.org/packages/theroadbunch/bouncer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -17,73 +18,83 @@ A library containing a Whitelist, a Blacklist, and a Bouncer class for use when 
 <a name="usage"></a>
 ### <a name="basic-usage">Basic Usage</a>
 
-Checking strings at the door using a blacklist
+Use `RoadBunch\Bouncer\BouncerFactory` to create your bouncer.  
+All bouncers implement `RoadBunch\Bouncer\BouncerInterface`  
+
 ```php
-<?php
-
+use RoadBunch\Bouncer\BouncerFactory;
 use RoadBunch\Bouncer\Bouncer;
-use RoadBunch\Bouncer\Blacklist;
 
-$banned = [
-    'BadDancer29',
-    'DefinitelyNotAFakeId'
-];
+$subject = 'blockedAndAllowed';
+$subjectList = [$subject];
 
-$blacklist = new Blacklist($banned);
-$bouncer   = new Bouncer($blacklist);
+$bouncer = BouncerFactory::create(Bouncer::ALLOW, $subjectList);
+$bouncer->isAllowed($subject); // true
 
-// returns true
-$bouncer->isBlacklisted('BadDancer29');
-$bouncer->isBlacklisted('DefinitelyNotAFakeId');
+$bouncer = BouncerFactory::create(Bouncer::DENY, $subjectList);
+$bouncer->isAllowed($subject) // false
 ```
 
-Add more neck rolls by letting in only the most elite strings
+Update the Bouncer in real time
+```php
+use RoadBunch\Bouncer\BouncerFactory;
+use RoadBunch\Bouncer\Bouncer;
+
+$subject = 'allowedAndThenBlocked';
+$subjectList = [$subject];
+
+$bouncer = BouncerFactory::create(Bouncer::ALLOW, $subjectList);
+$bouncer->isAllowed($subject); // true
+
+$bouncer->deny($subject);
+$bouncer->isAllowed($subject); // false
+```
+
+Example of a real-world use-case
 ```php
 <?php
 
+use Psr\Log\LoggerInterface;
 use RoadBunch\Bouncer\Bouncer;
-use RoadBunch\Bouncer\Whitelist;
+use RoadBunch\Bouncer\BouncerFactory;
+use RoadBunch\Bouncer\BouncerInterface;
 
-$hotClients = [
-    'GreatDancer37',
-    'HotCeleb21'
-];
+class Mailer
+{
+    public function __construct(      
+        /** ... config parameters ... */,
+        private readonly LoggerInterface $logger,
+        private readonly BouncerInterface $bouncer, 
+    ) {}
+    
+    public function sendEmail(string $address): void
+    {
+        if (!$this->bouncer->isAllowed($address)) {
+            $this->logger->warning("Cannot send email to blocked email address: {$address}");
+            return;                       
+        }
+        // do work
+        if (/* work fails */) {
+            // deny this address in the next run
+            $this->bouncer->deny($address);
+            $this->logger->error("Sending failed, {$address} add to block list.")
+        }
+    }
+}
+$bouncer = BouncerFactory::create(Bouncer::DENY, ['someone@example.com']);
+$mailer = new Mailer($bouncer);
 
-$whitelist = new Whitelist($hotClients);
-$bouncer   = new Bouncer($whitelist);
+// logs warning
+$mailer->sendEmail('someone@example.com');
 
-// returns false
-$bouncer->isBlacklisted('GreatDancer37');
-$bouncer->isBlacklisted('HotCeleb21');
-``` 
-__Note:__ `Bouncer::isBlacklisted()` has a sister method called `Bouncer::isAllowed()` and they return opposite values. Use whichever makes your code easier to read.
-
-Add or Remove strings from a Blacklist or Whitelist in real time
-```php
-<?php
-
-use RoadBunch\Bouncer\Bouncer;
-
-// a Bouncer created with nothing passed to the constructor implements an empty Blacklist
-$bouncer = new Bouncer();
-
-// returns false
-$bouncer->isBlacklisted('test string');
-
-// add the string to the blacklist/remove from whitelist
-$bouncer->addToBlacklist('test string');
-
-// returns true
-$bouncer->isBlacklisted('test string');
-
-// remove from blacklist/add to whitelist
-$bouncer->addToWhitelist('test string');
-
-// returns false
-$bouncer->isBlacklisted('test string');
+// sends email
+$mailer->sendEmail('someone.else@example.com');
 ```
 
 ## License
 The content of this library is released under the **MIT License** by **Dan McAdams**
 
 You can find a copy of this license in [`LICENSE`](LICENSE) or at http://opensource.org/licenses/mit.
+
+<hr />
+&copy; Dan McAdams  
