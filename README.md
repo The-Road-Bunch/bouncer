@@ -51,6 +51,7 @@ $bouncer->isAllowed($subject); // false
 ```
 
 Example of a real-world use-case
+
 ```php
 <?php
 
@@ -67,7 +68,7 @@ class Mailer
         private readonly BouncerInterface $bouncer, 
     ) {}
     
-    public function sendEmail(string $address): void
+    public function send(string $address, string $message): void
     {
         if (!$this->bouncer->isAllowed($address)) {
             $this->logger->warning("Cannot send email to blocked email address: {$address}");
@@ -81,20 +82,25 @@ class Mailer
         }
     }
 }
+
+// with blocked list
+
 $bouncer = BouncerFactory::create(Bouncer::DENY, ['someone@example.com']);
 $mailer = new Mailer($bouncer);
 
-// logs warning
-$mailer->sendEmail('someone@example.com');
+$mailer->send('someone@example.com', 'Welcome!'); // logs warning
+$mailer->send('someotheraddress@example.com', 'Welcome!'); // sends mail
 
-// sends email
-$mailer->sendEmail('someone.else@example.com');
+// with allowed list
+
+$bouncer = BouncerFactory::create(Bouncer::ALLOW, ['someone@example.com']);
+$mailer = new Mailer($bouncer);
+
+$mailer->send('someone@example.com', 'Welcome!'); // sends email
+$mailer->send('someotheraddress@example.com', 'Welcome!'); // logs warning
 ```
 
 ## License
-The content of this library is released under the **MIT License** by **Dan McAdams**
+&copy; Dan McAdams | The content of this library is released under the **MIT License**
 
 You can find a copy of this license in [`LICENSE`](LICENSE) or at http://opensource.org/licenses/mit.
-
-<hr />
-&copy; Dan McAdams  
