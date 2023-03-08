@@ -1,4 +1,4 @@
-# theroadbunch/bouncer [![build status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/)
+# theroadbunch/bouncer [![Build Status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=main)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/build-status/main)
 Bouncer is an easy-to-use block/deny list interface.  
 In this library is the interface and some usable classes to inject into your services.
   
