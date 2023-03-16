@@ -4,13 +4,14 @@
 [![Build Status](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/badges/build.png?b=main)](https://scrutinizer-ci.com/g/The-Road-Bunch/bouncer/build-status/main)
 
 _What is Bouncer?_  
-Bouncer is an easy-to-use allow/deny list interface. (currently only handles strings)
+
+Bouncer is an easy-to-use allow/deny list interface.
 
 _Why the name Bouncer?_  
-In the real-world, a bouncer holds the list of who is allowed entry and who is not.
 
-AllowBouncer: At an exclusive club, the bouncer has a list and if you're not on it, you can't come in.  
-DenyBouncer: The local bar allows almost everyone in, the bouncer has a list of trouble-makers to stop at the door.
+In the real-world, a bouncer holds the list of who is allowed entry and who is not.
+* AllowBouncer: At an exclusive club, the bouncer has a list and if you're not on it, you can't come in.  
+* DenyBouncer: The local bar allows almost everyone in, the bouncer has a list of trouble-makers to stop at the door.
 
 ### Contents
 1. [Installation](#install)
@@ -129,14 +130,6 @@ $mailer->send('someotheraddress@example.com', 'Welcome!'); // sends mail
 
 ### Bouncers
 All bouncers implement `RoadBunch\Bouncer\BouncerInterface`
-
-`RoadBunch\Bouncer\BouncerInterface`
-
-| method                     | description                                            | return type |
-|----------------------------|--------------------------------------------------------|-------------|
-| isAllowed(string $subject) | Is this string on the allow list/not on the deny list? | bool        |
-| allow(string $subject)     | Add this string to the allow list                      | void        |
-| deny(string $subject)      | Add this string to the deny list                       | void        |
 
 `RoadBunch\Bouncer\AllowBouncer`
 
