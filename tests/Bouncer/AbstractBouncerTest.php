@@ -16,6 +16,7 @@ use RoadBunch\Bouncer\AbstractBouncer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\CoversClass;
+use RoadBunch\Bouncer\BouncerInterface;
 
 /**
  * Class AbstractBouncerTest
@@ -26,18 +27,46 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class AbstractBouncerTest extends TestCase
 {
     #[Test]
-    public function hasMethodValueFound(): void
+    public function createBouncer(): void
     {
-        $subject = 'a string';
-        $abstractBouncer = $this->createMockBouncer([$subject]);
+        $this->assertInstanceOf(BouncerInterface::class, $this->makeBouncer());
+    }
+
+    #[Test]
+    public function testCreateBouncerWithArray(): void
+    {
+        $subject = ' a string with ; in it';
+        $abstractBouncer = $this->makeBouncer([$subject]);
 
         $this->assertTrue($abstractBouncer->has($subject));
     }
 
     #[Test]
+    public function createBouncerWithString(): void
+    {
+        $subject = ' a string ';
+        $abstractBouncer = $this->makeBouncer($subject);
+
+        $this->assertTrue($abstractBouncer->has($subject));
+    }
+
+    #[Test]
+    public function testCreateWithSemiColonSeparatedString(): void {
+        $subjects = 'subject one ; subject_two ; subject_three; ';
+        $abstractBouncer = $this->makeBouncer($subjects);
+
+        $this->assertTrue($abstractBouncer->has('subject one '));
+        $this->assertTrue($abstractBouncer->has(' subject_two '));
+        $this->assertTrue($abstractBouncer->has(' subject_three'));
+
+        // empty value at end of the ';' separated string should be dropped
+        $this->assertFalse($abstractBouncer->has(' '));
+    }
+
+    #[Test]
     public function hasMethodValueNotFound(): void
     {
-        $abstractBouncer = $this->createMockBouncer();
+        $abstractBouncer = $this->makeBouncer();
         $subject = 'a string';
 
         $this->assertFalse($abstractBouncer->has($subject));
@@ -46,7 +75,7 @@ final class AbstractBouncerTest extends TestCase
     #[Test]
     public function addValue(): void
     {
-        $abstractBouncer = $this->createMockBouncer();
+        $abstractBouncer = $this->makeBouncer();
         $subject = 'a string';
 
         $abstractBouncer->add($subject);
@@ -57,13 +86,13 @@ final class AbstractBouncerTest extends TestCase
     public function removeValue(): void
     {
         $subject = 'a string';
-        $abstractBouncer = $this->createMockBouncer([$subject]);
+        $abstractBouncer = $this->makeBouncer([$subject]);
 
         $abstractBouncer->remove($subject);
         $this->assertFalse($abstractBouncer->has($subject));
     }
 
-    private function createMockBouncer(array $values = []): AbstractBouncer
+    private function makeBouncer(array|string $values = []): AbstractBouncer
     {
         return $this->getMockForAbstractClass(AbstractBouncer::class, arguments: [$values]);
     }
