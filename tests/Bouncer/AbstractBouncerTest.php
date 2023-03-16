@@ -33,7 +33,7 @@ final class AbstractBouncerTest extends TestCase
     }
 
     #[Test]
-    public function testCreateBouncerWithArray(): void
+    public function createBouncerWithArray(): void
     {
         $subject = ' a string with ; in it';
         $abstractBouncer = $this->makeBouncer([$subject]);
@@ -51,7 +51,7 @@ final class AbstractBouncerTest extends TestCase
     }
 
     #[Test]
-    public function testCreateWithSemiColonSeparatedString(): void {
+    public function createWithSemiColonSeparatedString(): void {
         $subjects = 'subject one ; subject_two ; subject_three; ';
         $abstractBouncer = $this->makeBouncer($subjects);
 
