@@ -12,37 +12,24 @@ declare(strict_types=1);
 namespace RoadBunch\Bouncer;
 
 
+use JetBrains\PhpStorm\Deprecated;
+
 /**
  * Class BouncerFactory
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
+#[Deprecated(
+    reason: 'Documentation will be removed in v2.4. Use Bouncer::allow or Bouncer::deny instead',
+    replacement: "Use Bouncer::allow or Bouncer::deny instead"
+)]
 class BouncerFactory
 {
     public static function create(Rule $rule, array|string $subjects = []): BouncerInterface
     {
-        if (is_string($subjects)) {
-            $trimmed = [];
-            foreach (explode(';', $subjects) as $subject) {
-                if (!empty($subject)) {
-                    $trimmed[] = trim($subject);
-                }
-            }
-            $subjects = $trimmed;
-        }
         return match ($rule) {
-            Rule::ALLOW => new AllowList($subjects),
-            Rule::DENY => new DenyList($subjects),
+            Rule::ALLOW => new AllowBouncer($subjects),
+            Rule::DENY => new DenyBouncer($subjects),
         };
-    }
-
-    public static function createAllow(array|string $subjects = []): BouncerInterface
-    {
-        return self::create(Rule::ALLOW, $subjects);
-    }
-
-    public static function createDeny(array|string $subjects = []): BouncerInterface
-    {
-        return self::create(Rule::DENY, $subjects);
     }
 }

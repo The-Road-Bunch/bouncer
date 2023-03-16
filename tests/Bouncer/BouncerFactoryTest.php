@@ -1,16 +1,27 @@
 <?php
 declare(strict_types=1);
+/**
+ * This file is part of the theroadbunch/bouncer package.
+ *
+ * (c) Dan McAdams <danmcadams@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace RoadBunch\Tests\Bouncer;
 
 
+use JetBrains\PhpStorm\Deprecated;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use RoadBunch\Bouncer\AllowList;
+use RoadBunch\Bouncer\AllowBouncer;
+use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\BouncerFactory;
 use RoadBunch\Bouncer\BouncerInterface;
+use RoadBunch\Bouncer\DenyBouncer;
 use RoadBunch\Bouncer\Rule;
 
 /**
@@ -18,6 +29,10 @@ use RoadBunch\Bouncer\Rule;
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
+#[Deprecated(
+    reason: 'Will be removed in v2.4',
+    replacement: "Use Bouncer::allow or Bouncer::deny instead"
+)]
 #[CoversClass(BouncerFactory::class)]
 final class BouncerFactoryTest extends TestCase
 {
@@ -27,7 +42,16 @@ final class BouncerFactoryTest extends TestCase
     {
         $bouncer = BouncerFactory::create(Rule::ALLOW, $subjects);
         $this->assertInstanceOf(BouncerInterface::class, $bouncer);
-        $this->assertInstanceOf(AllowList::class, $bouncer);
+        $this->assertInstanceOf(AllowBouncer::class, $bouncer);
+    }
+
+    #[Test]
+    #[DataProvider('subjectsProvider')]
+    public function createDenyBouncerFromRule(array|string $subjects): void
+    {
+        $bouncer = BouncerFactory::create(Rule::DENY, $subjects);
+        $this->assertInstanceOf(BouncerInterface::class, $bouncer);
+        $this->assertInstanceOf(DenyBouncer::class, $bouncer);
     }
 
     public static function subjectsProvider(): array
@@ -46,56 +70,5 @@ final class BouncerFactoryTest extends TestCase
                 'subject_one ; subject_two ; subject_three',
             ],
         ];
-    }
-
-    #[Test]
-    public function createAllowBouncer(): void
-    {
-        $subject = 'subject';
-        $bouncer = BouncerFactory::createAllow([$subject]);
-
-        $this->assertTrue($bouncer->isAllowed($subject));
-        $this->assertFalse($bouncer->isAllowed(uniqid()));
-    }
-
-    #[Test]
-    public function createDenyBouncer(): void
-    {
-        $subject = 'subject';
-        $bouncer = BouncerFactory::createDeny([$subject]);
-
-        $this->assertFalse($bouncer->isAllowed($subject));
-        $this->assertTrue($bouncer->isAllowed(uniqid()));
-    }
-
-    #[Test]
-    public function createAllowBouncerFromString(): void
-    {
-        $subjects = 'subject_one;subject_two;subject_three';
-        $bouncer = BouncerFactory::createAllow($subjects);
-
-        $this->assertTrue($bouncer->isAllowed('subject_one'));
-        $this->assertTrue($bouncer->isAllowed('subject_two'));
-        $this->assertTrue($bouncer->isAllowed('subject_three'));
-        $this->assertFalse($bouncer->isAllowed('subject_four'));
-    }
-
-    #[Test]
-    public function createDenyBouncerFromString(): void
-    {
-        $subjects = 'subject_one;subject_two;subject_three';
-        $bouncer = BouncerFactory::createDeny($subjects);
-
-        $this->assertFalse($bouncer->isAllowed('subject_one'));
-        $this->assertFalse($bouncer->isAllowed('subject_two'));
-        $this->assertFalse($bouncer->isAllowed('subject_three'));
-        $this->assertTrue($bouncer->isAllowed('subject_four'));
-    }
-
-    #[Test]
-    public function testCreateFromListTrimsSpaces(): void
-    {
-        $subjects = 'subject_one ; subject_two; subject_three ; ';
-        $this->markTestSkipped('');
     }
 }
