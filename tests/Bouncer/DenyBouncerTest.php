@@ -12,59 +12,59 @@ declare(strict_types=1);
 namespace RoadBunch\Tests\Bouncer;
 
 
-use RoadBunch\Bouncer\DenyList;
+use RoadBunch\Bouncer\DenyBouncer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Class DenyListTest
+ * Class DenyBouncerTest
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-#[CoversClass(DenyList::class)]
-final class DenyListTest extends TestCase
+#[CoversClass(DenyBouncer::class)]
+final class DenyBouncerTest extends TestCase
 {
     #[Test]
     public function createDenyList()
     {
         $domain = 'denied';
-        $blockList = new DenyList([$domain]);
+        $bouncer = new DenyBouncer([$domain]);
 
-        $this->assertFalse($blockList->isAllowed($domain));
+        $this->assertFalse($bouncer->isAllowed($domain));
     }
 
     #[Test]
     public function allowRemovesStringFromDenyList(): void
     {
         $domain = 'denied';
-        $blockList = new DenyList([$domain]);
+        $bouncer = new DenyBouncer([$domain]);
 
-        $this->assertFalse($blockList->isAllowed($domain));
+        $this->assertFalse($bouncer->isAllowed($domain));
 
-        $blockList->allow($domain);
-        $this->assertTrue($blockList->isAllowed($domain));
+        $bouncer->allow($domain);
+        $this->assertTrue($bouncer->isAllowed($domain));
     }
 
     #[Test]
     public function denyAddsStringToDenyList(): void
     {
         $domain = 'denied';
-        $blockList = new DenyList();
+        $bouncer = new DenyBouncer();
 
-        $this->assertTrue($blockList->isAllowed($domain));
+        $this->assertTrue($bouncer->isAllowed($domain));
 
-        $blockList->deny($domain);
-        $this->assertFalse($blockList->isAllowed($domain));
+        $bouncer->deny($domain);
+        $this->assertFalse($bouncer->isAllowed($domain));
     }
 
     #[Test]
     public function withDuplicateString(): void
     {
-        $allowList = new DenyList(['d', 'd']);
-        $this->assertFalse($allowList->isAllowed('d'));
+        $bouncer = new DenyBouncer(['d', 'd']);
+        $this->assertFalse($bouncer->isAllowed('d'));
 
-        $allowList->allow('d');
-        $this->assertTrue($allowList->isAllowed('d'));
+        $bouncer->allow('d');
+        $this->assertTrue($bouncer->isAllowed('d'));
     }
 }

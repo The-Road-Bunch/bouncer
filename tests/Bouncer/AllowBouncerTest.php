@@ -12,27 +12,27 @@ declare(strict_types=1);
 namespace RoadBunch\Tests\Bouncer;
 
 
-use RoadBunch\Bouncer\AllowList;
+use RoadBunch\Bouncer\AllowBouncer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Class AllowListTest
+ * Class AllowBouncerTest
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-#[CoversClass(AllowList::class)]
-final class AllowListTest extends TestCase
+#[CoversClass(AllowBouncer::class)]
+final class AllowBouncerTest extends TestCase
 {
     #[Test]
     public function createAllowList()
     {
         $domain = 'allowed';
-        $allowList = new AllowList([$domain]);
+        $bouncer = new AllowBouncer([$domain]);
 
-        $this->assertTrue($allowList->isAllowed($domain));
+        $this->assertTrue($bouncer->isAllowed($domain));
     }
 
     #[Test]
@@ -40,33 +40,33 @@ final class AllowListTest extends TestCase
     public function denyRemovesStringFromBlockList(): void
     {
         $domain = 'allowed';
-        $allowList = new AllowList([$domain]);
+        $bouncer = new AllowBouncer([$domain]);
 
-        $this->assertTrue($allowList->isAllowed($domain));
+        $this->assertTrue($bouncer->isAllowed($domain));
 
-        $allowList->deny($domain);
-        $this->assertFalse($allowList->isAllowed($domain));
+        $bouncer->deny($domain);
+        $this->assertFalse($bouncer->isAllowed($domain));
     }
 
     #[Test]
     public function allowAddsStringToBlockList(): void
     {
         $domain = 'allowed';
-        $allowList = new AllowList();
+        $bouncer = new AllowBouncer();
 
-        $this->assertFalse($allowList->isAllowed($domain));
+        $this->assertFalse($bouncer->isAllowed($domain));
 
-        $allowList->allow($domain);
-        $this->assertTrue($allowList->isAllowed($domain));
+        $bouncer->allow($domain);
+        $this->assertTrue($bouncer->isAllowed($domain));
     }
 
     #[Test]
     public function withDuplicateString(): void
     {
-        $allowList = new AllowList(['d', 'd']);
-        $this->assertTrue($allowList->isAllowed('d'));
+        $bouncer = new AllowBouncer(['d', 'd']);
+        $this->assertTrue($bouncer->isAllowed('d'));
 
-        $allowList->deny('d');
-        $this->assertFalse($allowList->isAllowed('d'));
+        $bouncer->deny('d');
+        $this->assertFalse($bouncer->isAllowed('d'));
     }
 }

@@ -13,11 +13,11 @@ namespace RoadBunch\Bouncer;
 
 
 /**
- * Class DenyList
+ * Class DenyBouncer
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-class DenyList extends AbstractBouncer
+class DenyBouncer extends AbstractBouncer
 {
     public function isAllowed(string $subject): bool
     {
