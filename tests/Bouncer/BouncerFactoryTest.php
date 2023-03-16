@@ -18,7 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\AllowBouncer;
-use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\BouncerFactory;
 use RoadBunch\Bouncer\BouncerInterface;
 use RoadBunch\Bouncer\DenyBouncer;
