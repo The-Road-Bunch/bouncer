@@ -12,45 +12,55 @@ declare(strict_types=1);
 namespace RoadBunch\Tests\Bouncer;
 
 
-use JetBrains\PhpStorm\Deprecated;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RoadBunch\Bouncer\AllowBouncer;
-use RoadBunch\Bouncer\BouncerFactory;
+use RoadBunch\Bouncer\Bouncer;
 use RoadBunch\Bouncer\BouncerInterface;
 use RoadBunch\Bouncer\DenyBouncer;
-use RoadBunch\Bouncer\Rule;
 
 /**
- * Class BouncerFactoryTest
+ * Class BouncerTest
  *
  * @author Dan McAdams <dan.mcadams@gmail.com>
  */
-#[Deprecated(
-    reason: 'Will be removed in v2.4',
-    replacement: "Use Bouncer::allow or Bouncer::deny instead"
-)]
-#[CoversClass(BouncerFactory::class)]
-final class BouncerFactoryTest extends TestCase
+#[CoversClass(Bouncer::class)]
+final class BouncerTest extends TestCase
 {
     #[Test]
     #[DataProvider('subjectsProvider')]
-    public function createAllowBouncerFromRule(array|string $subjects): void
+    public function createAllowBouncer(array|string $subjects): void
     {
-        $bouncer = BouncerFactory::create(Rule::ALLOW, $subjects);
+        $bouncer = Bouncer::allow($subjects);
         $this->assertInstanceOf(BouncerInterface::class, $bouncer);
         $this->assertInstanceOf(AllowBouncer::class, $bouncer);
+
+        if (is_string($subjects)) {
+            $subjects = explode(';', $subjects);
+        }
+        foreach ($subjects as $subject) {
+            $this->assertTrue($bouncer->isAllowed($subject));
+        }
+        $this->assertFalse($bouncer->isAllowed(uniqid())); // random string
     }
 
     #[Test]
     #[DataProvider('subjectsProvider')]
-    public function createDenyBouncerFromRule(array|string $subjects): void
+    public function createDenyBouncer(array|string $subjects): void
     {
-        $bouncer = BouncerFactory::create(Rule::DENY, $subjects);
+        $bouncer = Bouncer::deny($subjects);
         $this->assertInstanceOf(BouncerInterface::class, $bouncer);
         $this->assertInstanceOf(DenyBouncer::class, $bouncer);
+
+        if (is_string($subjects)) {
+            $subjects = explode(';', $subjects);
+        }
+        foreach ($subjects as $subject) {
+            $this->assertFalse($bouncer->isAllowed($subject));
+        }
+        $this->assertTrue($bouncer->isAllowed(uniqid())); // random string
     }
 
     public static function subjectsProvider(): array

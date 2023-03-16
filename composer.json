@@ -1,6 +1,6 @@
 {
     "name": "theroadbunch/bouncer",
-    "description": "",
+    "description": "Bouncer is an easy-to-use allow/deny list interface.",
     "type": "library",
     "autoload": {
         "psr-4": {

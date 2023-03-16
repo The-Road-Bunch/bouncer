@@ -19,35 +19,51 @@ namespace RoadBunch\Bouncer;
  */
 abstract class AbstractBouncer implements BouncerInterface
 {
-    /** @var string[] $items */
-    private array $items = [];
+    /** @var string[] $subjectPool */
+    private array $subjectPool = [];
 
-    /** @param string[] $items */
-    public function __construct(array $items = [])
+    /**
+     * Provide an array of strings or a single string value.
+     * If a single string is provided, values will be extracted with the delimiter ';'
+     *
+     * @param string|string[] $subjects
+     */
+    public function __construct(array|string $subjects = [])
     {
-        foreach ($items as $subject) {
-            $this->add($subject);
+        if (is_string($subjects)) {
+            $subjects = $this->subjectsFromString($subjects);
         }
+        array_walk($subjects, [$this, 'add']);
     }
 
     public function has(string $subject): bool
     {
-        return in_array($subject, $this->items);
+        return in_array($subject, $this->subjectPool);
     }
 
     public function add(string $subject): void
     {
         if (!$this->has($subject)) {
-            $this->items[] = $subject;
+            $this->subjectPool[] = $subject;
         }
     }
 
     public function remove(string $subject): void
     {
-        $key = array_search($subject, $this->items);
+        $key = array_search($subject, $this->subjectPool);
 
         if ($key !== false) {
-            unset($this->items[$key]);
+            unset($this->subjectPool[$key]);
         }
+    }
+
+    private function subjectsFromString(string $subjects): array
+    {
+        return array_filter(
+            explode(';', $subjects),
+            function ($subject) {
+                return !empty(trim($subject));
+            }
+        );
     }
 }
